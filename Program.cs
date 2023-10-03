@@ -1,10 +1,10 @@
 ﻿using System;
 
-class Person
+abstract class Person
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int Age { get; set; }
+    protected int Id { get; set; }
+    protected string Name { get; set; }
+    protected int Age { get; set; }
 
     public Person(int id, string name, int age)
     {
@@ -13,13 +13,13 @@ class Person
         Age = age;
     }
 
-    public void PrintInfo()
+    public abstract void PrintInfo()
     {
         Console.WriteLine($"ID: {Id}");
         Console.WriteLine($"Name: {Name}");
         Console.WriteLine($"Age: {Age}");
     }
-}
+}   
 
 class Student : Person
 {
@@ -34,7 +34,7 @@ class Student : Person
         School = school;
     }
 
-    public void PrintStudentInfo()
+    public override void PrintStudentInfo()
     {
         Console.WriteLine("Student Information:");
         PrintInfo();
@@ -55,7 +55,7 @@ class Lecturer : Person
         Department = department;
     }
 
-    public void PrintLecturerInfo()
+    public override void PrintLecturerInfo()
     {
         Console.WriteLine("Lecturer Information:");
         PrintInfo();
@@ -64,50 +64,49 @@ class Lecturer : Person
     }
 }
 
-class Lecturer_Class
-{
-    public string SubjectNumber { get; set; }
-    public string SubjectName { get; set; }
-    public int Credit { get; set; }
-
-    public Lecturer_Class(string subjectNumber, string subjectName, int credit)
-    {
-        SubjectNumber = subjectNumber;
-        SubjectName = subjectName;
-        Credit = credit;
-    }
-
-    public void PrintLecturerClassInfo()
-    {
-        Console.WriteLine("Lecturer Class Information:");
-        Console.WriteLine($"Subject Number: {SubjectNumber}");
-        Console.WriteLine($"Subject Name: {SubjectName}");
-        Console.WriteLine($"Credit: {Credit}");
-    }
-}
-
 class Subject
 {
     public string SubjectNumber { get; set; }
-    public int ClassNumber { get; set; }
-    public int NumberOfStudents { get; set; }
-    public string Semester { get; set; }
+    public int Credit { get; set; }
 
-    public Subject(string subjectNumber, int classNumber, int numberOfStudents, string semester)
+    public Subject(string subjectNumber, int credit)
     {
         SubjectNumber = subjectNumber;
-        ClassNumber = classNumber;
-        NumberOfStudents = numberOfStudents;
-        Semester = semester;
+        Credit = credit;
     }
 
     public void PrintSubjectInfo()
     {
         Console.WriteLine("Subject Information:");
         Console.WriteLine($"Subject Number: {SubjectNumber}");
-        Console.WriteLine($"Class Number: {ClassNumber}");
-        Console.WriteLine($"Number of Students: {NumberOfStudents}");
-        Console.WriteLine($"Semester: {Semester}");
+        Console.WriteLine($"Credit: {Credit}");
+    }
+}
+
+class Lecturer_Class : Subject
+{
+    public string SubjectName { get; set; }
+    public string Address { get; set; }
+    public int NumberOfStudents { get; set; }
+    public int Semester { get; set; }
+
+
+    public Lecturer_Class(string subjectNumber, int credit, string subjectName, string address, int numberOfStudents, string semester) 
+    {
+        SubjectName = subjectName;
+        Address = address;
+        NumberOfStudents = numberOfStudents;
+        Semester = semester;
+    }
+
+    public void PrintLecturerClassInfo()
+    {
+        Console.WriteLine("Lecturer Class Information:");
+        Console.WriteLine($"Subject Name: {SubjectName}");
+        Console.WriteLine($"Address: {Address}");
+        Console.WriteLine($"NumberOfStudents: {NumberOfStudents}");        
+        Console.WriteLine($"Credit: {Semester}");
+        Console.WriteLine($"Credit: {Credit}");
     }
 }
 
@@ -116,22 +115,22 @@ class Program
     static void Main(string[] args)
     {
         Student student = new Student(1, "Hoang Long", 20, "S12345", "Electronics", "SEEE");
-        student.PrintStudentInfo();
+        student.PrintInfo();
 
         Console.WriteLine();
 
         Lecturer lecturer = new Lecturer(2, "Hoang Lam", 35, "Vice-president", "Algebra");
-        lecturer.PrintLecturerInfo();
+        lecturer.PrintInfo();
 
         Console.WriteLine();
 
-        Lecturer_Class lecturerClass = new Lecturer_Class("MI1141", "Computer Science", 3);
+        Subject subject = new Subject("MI1141", 1);
+        subject.PrintSubjectInfo();
+
+        Lecturer_Class lecturerClass = new Lecturer_Class("MI1141", "Computer Science", 3, "D8-304", 30, "Fall 2023");
         lecturerClass.PrintLecturerClassInfo();
 
         Console.WriteLine();
-
-        Subject subject = new Subject("MI1141", 1, 30, "Fall 2023");
-        subject.PrintSubjectInfo();
     }
 }
  
